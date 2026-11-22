@@ -20,7 +20,7 @@ public class LevelUtils {
         if (stack == null)
             return;
         if (level instanceof ISubLevel) {
-            pos = ((ISubLevel) level).transformToRealWorld(pos);
+            pos = ((ISubLevel) level).transform(pos);
             level = ((ISubLevel) level).getRealLevel();
         }
         Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), stack);
