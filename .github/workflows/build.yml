@@ -42,7 +42,7 @@ jobs:
       - name: Build
         run: |
           chmod +x gradlew
-          for i in 1 2 3; do ./gradlew :CreativeCore:build --stacktrace && break; echo "retry $i"; sleep 15; done
+          ./gradlew :CreativeCore:build --stacktrace
 
       - name: Collect jar
         run: |

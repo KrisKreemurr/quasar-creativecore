@@ -30,7 +30,7 @@ public class FilterRegistry<T extends CompoundSerializer> {
     }
     
     public T read(CompoundTag tag) throws RegistryException {
-        String id = tag.getString("t");
+        String id = tag.getStringOr("t", "");
         var entry = STATIC_ENTRIES.get(id);
         if (entry != null)
             return entry;

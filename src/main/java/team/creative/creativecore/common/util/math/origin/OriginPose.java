@@ -74,7 +74,7 @@ public class OriginPose implements IOriginPose {
         matrixStack.translate((float) translation.x, (float) translation.y, (float) translation.z);
         
         matrixStack.translate((float) (center.x - cam.x), (float) (center.y - cam.y), (float) (center.z - cam.z));
-        matrixStack.mulPose(new Quaternionf(rotation));
+        matrixStack.mulPose(new org.joml.Matrix4f().rotation(new Quaternionf(rotation)));
         matrixStack.translate((float) (-center.x + cam.x), (float) (-center.y + cam.y), (float) (-center.z + cam.z));
         return cam;
     }
