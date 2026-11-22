@@ -304,5 +304,16 @@ public class Color {
     public String hex() {
         return ColorUtils.toHex(toInt());
     }
-    
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Color c)
+            return c.red == red && c.green == green && c.blue == blue && c.alpha == alpha;
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return ((alpha * 31 + red) * 31 + green) * 31 + blue;
+    }
 }

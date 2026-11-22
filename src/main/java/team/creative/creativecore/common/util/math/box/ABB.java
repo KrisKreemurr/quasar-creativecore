@@ -2,15 +2,20 @@ package team.creative.creativecore.common.util.math.box;
 
 import org.jetbrains.annotations.Nullable;
 
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import team.creative.creativecore.client.render.box.RenderBox;
 import team.creative.creativecore.common.util.math.base.Axis;
 import team.creative.creativecore.common.util.math.base.Facing;
 import team.creative.creativecore.common.util.math.collision.CollisionCoordinator;
-import team.creative.creativecore.common.util.math.matrix.IVecOrigin;
+import team.creative.creativecore.common.util.math.origin.IOriginPose;
 import team.creative.creativecore.common.util.math.vec.Vec3d;
 
 public class ABB {
@@ -241,14 +246,14 @@ public class ABB {
         return corners;
     }
     
-    public Vec3d[] getRotatedCorners(IVecOrigin origin) {
+    public Vec3d[] getRotatedCorners(IOriginPose pose) {
         Vec3d[] corners = getCorners();
         for (int i = 0; i < corners.length; i++)
-            origin.transformPointToWorld(corners[i]);
+            pose.transform(corners[i]);
         return corners;
     }
     
-    public Vec3d[] getOuterCorner(Facing facing, IVecOrigin origin, double minOne, double minTwo, double maxOne, double maxTwo) {
+    public Vec3d[] getOuterCorner(Facing facing, IOriginPose pose, double minOne, double minTwo, double maxOne, double maxTwo) {
         Vec3d[] corners = getCorners();
         
         double value = 0;
@@ -257,7 +262,7 @@ public class ABB {
         
         for (int i = 0; i < corners.length; i++) {
             Vec3d vec = corners[i];
-            origin.transformPointToWorld(vec);
+            pose.transform(vec);
             
             double vectorValue = vec.get(axis);
             if (selected == null || (facing.positive ? vectorValue > value : vectorValue < value)) {
@@ -485,9 +490,11 @@ public class ABB {
         this.maxZ += z;
     }
     
-    /*@OnlyIn(Dist.CLIENT)
-    public void renderLines(PoseStack pose, VertexConsumer consumer, float red, float green, float blue, float alpha) {
-        //TODO READD LevelRenderer.renderLineBox(pose, consumer, minX, minY, minZ, maxX, maxY, maxZ, red, green, blue, alpha);
-    }*/
+    /* Quasar MC: LevelRenderer.renderLineBox no longer exists on 26.x (it was disabled on the 26.x branch too)
+    public void renderLines(...) */
+    
+    public RenderBox toRenderBox() {
+        return new RenderBox((float) minX, (float) minY, (float) minZ, (float) maxX, (float) maxY, (float) maxZ, (BlockState) null);
+    }
     
 }
