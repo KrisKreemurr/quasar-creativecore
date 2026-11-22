@@ -1,0 +1,70 @@
+package team.creative.creativecore.common.util.math.origin;
+
+import org.joml.Quaterniond;
+
+import team.creative.creativecore.common.util.math.vec.Vec3d;
+
+public class ChildVecOrigin extends VecOrigin {
+    
+    protected IVecOrigin parent;
+    private int parentPoseId;
+    
+    public ChildVecOrigin(IVecOrigin parent, Vec3d center) {
+        super(center);
+        this.parent = parent;
+        updatePose();
+    }
+    
+    public void setParent(IVecOrigin parent) {
+        this.parent = parent;
+        setChanged();
+    }
+    
+    @Override
+    protected IOriginPose generatePose(double offX, double offY, double offZ, double rotX, double rotY, double rotZ) {
+        if (parent == null)
+            return null;
+        parentPoseId = parent.idPose();
+        return new ChildOriginPose(parent.pose(), new Vec3d(offX, offY, offZ), new Quaterniond().rotationXYZ(Math.toRadians(rotX), Math.toRadians(rotY), Math.toRadians(
+            rotZ)), center.copy());
+    }
+    
+    @Override
+    protected IOriginPose generatePose(double offX, double offY, double offZ, double rotX, double rotY, double rotZ, float partialTick) {
+        if (parent == null)
+            return null;
+        parentPoseId = parent.idPose();
+        return new ChildOriginPose(parent.pose(partialTick), new Vec3d(offX, offY, offZ), new Quaterniond().rotationXYZ(Math.toRadians(rotX), Math.toRadians(rotY), Math.toRadians(
+            rotZ)), center.copy());
+    }
+    
+    @Override
+    public IOriginPose pose() {
+        if (parentPoseId != parent.idPose())
+            updatePose();
+        return super.pose();
+    }
+    
+    @Override
+    public IOriginPose pose(float partialTick) {
+        if (parentPoseId != parent.idPose())
+            updatePose();
+        return super.pose(partialTick);
+    }
+    
+    @Override
+    public boolean hasChanged() {
+        return super.hasChanged() || parent.hasChanged();
+    }
+    
+    @Override
+    public IVecOrigin getParent() {
+        return parent;
+    }
+    
+    @Override
+    protected VecOrigin createInternalCopy() {
+        return new ChildVecOrigin(parent, new Vec3d(center));
+    }
+    
+}
