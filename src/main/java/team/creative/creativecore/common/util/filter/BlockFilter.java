@@ -100,7 +100,7 @@ public abstract class BlockFilter implements Filter<Block>, CompoundSerializer {
         
         @SuppressWarnings("unused")
         public BlockFilterBlock(CompoundTag nbt) {
-            this.block = BuiltInRegistries.BLOCK.get(Identifier.parse(nbt.getStringOr("b", "")));
+            this.block = BuiltInRegistries.BLOCK.getValue(Identifier.parse(nbt.getStringOr("b", "")));
         }
         
         @Override
@@ -133,7 +133,7 @@ public abstract class BlockFilter implements Filter<Block>, CompoundSerializer {
             ListTag list = nbt.getListOrEmpty("b");
             this.blocks = new Block[list.size()];
             for (int i = 0; i < blocks.length; i++)
-                blocks[i] = BuiltInRegistries.BLOCK.get(Identifier.parse(list.getStringOr(i, "")));
+                blocks[i] = BuiltInRegistries.BLOCK.getValue(Identifier.parse(list.getStringOr(i, "")));
         }
         
         @Override
