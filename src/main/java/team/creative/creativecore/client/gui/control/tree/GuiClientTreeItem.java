@@ -63,7 +63,7 @@ public class GuiClientTreeItem<T extends GuiTreeItem> extends GuiClientParent<T>
     protected ControlFormatting defaultFormatting() {
         if (state == ItemClickState.DRAGGED)
             return ControlFormatting.OUTLINE;
-        return super.getControlFormatting();
+        return super.defaultFormatting();
     }
     
     private static enum ItemClickState {
