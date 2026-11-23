@@ -43,7 +43,8 @@ public class GuiCheckBox extends GuiLabel {
     }
     
     public GuiCheckBox consumeChanged(Consumer<Boolean> changed) {
-        this.consumeChanged(changed);
+        if (dist() != null)
+            dist().consumeChanged(changed);
         return this;
     }
     
