@@ -734,7 +734,7 @@ public class NetworkFieldTypes {
             
             @Override
             public void write(Packet content, Class classType, Type genericType, CreativeByteBuf buffer, PacketFlow flow) {
-                var codec = ConnectionUtils.getProtocolInfo(buffer.connection).codec();
+                var codec = ConnectionUtils.getOutboundProtocolInfo(buffer.connection).codec();
                 boolean bundle = content instanceof BundlePacket;
                 if (bundle) {
                     List<Packet> packets = CreativeNetworkUtils.flatten(new SingleIterator(content));

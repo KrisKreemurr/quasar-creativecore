@@ -10,4 +10,8 @@ public class ConnectionUtils {
         return ((ConnectionMixin) (Object) connection).protocolInfo;
     }
     
+    public static ProtocolInfo<?> getOutboundProtocolInfo(Connection connection) {
+        return getProtocolInfo(connection); // fabric is not built for Quasar MC
+    }
+    
 }
